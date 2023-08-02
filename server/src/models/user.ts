@@ -29,6 +29,10 @@ userSchema.statics.findByUsername = function (username: string) {
   return this.findOne({ username }).exec();
 };
 
+userSchema.statics.findByUserId = function (id: string) {
+  return this.findOne({ id }).exec();
+};
+
 const User = mongoose.model<UserDocument, UserModel>("User", userSchema);
 
 export default User;
