@@ -1,10 +1,14 @@
 import * as dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import router from "./src/routes/auth.js";
 dotenv.config();
 const app = express();
 const PORT = 5050;
+app.use(cors({
+    origin: "http://localhost:3001",
+}));
 app.use(express.json());
 // DB接続
 try {
