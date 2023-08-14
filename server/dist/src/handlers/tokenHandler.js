@@ -27,8 +27,6 @@ Token.verifyToken = async (req, res, next) => {
     const tokenDecoded = Token.tokenDecode(req);
     if (tokenDecoded) {
         const user = await User.findById(tokenDecoded.id);
-        console.log("user:");
-        console.log(user);
         if (!user) {
             return res.status(401).json("権限がありません");
         }

@@ -1,18 +1,20 @@
 //APIを叩く前に前処理を行う
 
-import { AxiosError, AxiosResponse } from "axios";
-import { AxiosClient, getToken } from "./axiosClient";
+import { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { AxiosClient } from "./axiosClient";
 
-AxiosClient.interceptors.request.use(async (config) => {
-  if (config.headers !== undefined) {
-    const token = getToken(); // getTokenを同期的に実行してトークンを取得する
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+AxiosClient.interceptors.request.use(
+  (config: InternalAxiosRequestConfig<any>) => {
+    // リクエストが送信される前の処理
+    return {
+      ...config,
+    };
+  },
+  function (error) {
+    // リクエスト エラーの処理
+    return Promise.reject(error);
   }
-
-  return config;
-});
+);
 
 AxiosClient.interceptors.response.use(
   (response: AxiosResponse) => {

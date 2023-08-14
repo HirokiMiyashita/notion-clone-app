@@ -28,9 +28,6 @@ export class Token {
     const tokenDecoded: any = Token.tokenDecode(req);
     if (tokenDecoded) {
       const user: any = await User.findById(tokenDecoded.id);
-      console.log("user:");
-
-      console.log(user);
       if (!user) {
         return res.status(401).json("権限がありません");
       }

@@ -27,7 +27,7 @@ class Validator {
     return body(value).custom(async (value: string, { req }) => {
       const userDocument = await User.findByUsername(value);
       if (!userDocument) {
-        return Promise.reject("ユーザー名が無効です");
+        return Promise.reject("ユーザー名またはパスワードが無効です");
       }
     });
   }
@@ -38,7 +38,7 @@ class Validator {
     const userDocument = await User.findByUsername(req.body.username);
     console.debug(userDocument);
     if (!userDocument) {
-      return "ユーザー名が無効です";
+      return "ユーザー名またはパスワードが無効です";
     }
 
     const descryptedPassword = crypto.AES.decrypt(
@@ -63,11 +63,12 @@ class Validator {
 
   static validate(req: Request, res: Response) {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      console.debug(errors.array());
-      return false;
-    }
-    return true;
+    return errors.array();
+    // if (!errors.isEmpty()) {
+    //   console.debug(errors.array());
+    //   return false;
+    // }
+    // return true;
   }
 }
 

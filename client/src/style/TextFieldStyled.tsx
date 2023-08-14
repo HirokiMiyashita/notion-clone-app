@@ -4,10 +4,11 @@ interface TextFieldProps {
   isvalid: string;
 }
 
-export const TextField = styled.input<TextFieldProps>`
+export const TextField = styled.input`
   color: black;
-  width: 60%;
+  width: 95%;
+  margin: 0 auto;
+  display: block;
   height: 2rem;
-  background-color: ${({ isvalid }) => (isvalid == "true" ? "red" : "blue")};
   /* isValidがtrueの場合 */
 `;

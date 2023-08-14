@@ -1,27 +1,24 @@
 import { NavigateFunction } from "react-router-dom";
 import { authApi } from "./authApi";
-import { response } from "express";
 
-interface RegisterProps {
+interface LoginProps {
   username: string;
   password: string;
-  setNameValidate: React.Dispatch<React.SetStateAction<string>>;
-  setPassValidate: React.Dispatch<React.SetStateAction<string>>;
+  setValidate: React.Dispatch<React.SetStateAction<string>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   navigate: NavigateFunction;
 }
 
-export const register = async ({
+export const login = async ({
   username,
   password,
-  setNameValidate,
-  setPassValidate,
+  setValidate,
   setIsLoading,
   navigate,
-}: RegisterProps) => {
+}: LoginProps) => {
   setIsLoading(true);
   try {
-    const res = await authApi.register({
+    const res = await authApi.login({
       username: username,
       password: password,
     });
@@ -30,17 +27,13 @@ export const register = async ({
     navigate("/");
   } catch (error: any) {
     const errors: object = error.response.data;
-
     const keys = Object.values(errors);
     keys.map((e) => {
       e.map((j: any) => {
-        if (j.path === "password") {
-          return setPassValidate(j.msg);
-        } else if (j.path === "username") {
-          return setNameValidate(j.msg);
+        if (j.path === "username" || j.path === "password") {
+          return setValidate(j.msg);
         } else {
-          setPassValidate("");
-          setNameValidate("");
+          setValidate("");
         }
 
         return;
